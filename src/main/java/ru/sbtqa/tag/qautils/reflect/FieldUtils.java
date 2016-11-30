@@ -7,8 +7,6 @@ import java.util.List;
 
 /**
  * Reflection helper to deal with class fields
- *
- * @author Viktor Sidochenko <viktor.sidochenko@gmail.com>
  */
 public class FieldUtils extends org.apache.commons.lang3.reflect.FieldUtils {
 

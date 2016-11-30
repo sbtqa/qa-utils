@@ -15,8 +15,7 @@ import ru.sbtqa.tag.qautils.errors.AutotestError;
 import ru.sbtqa.tag.qautils.properties.Props;
 
 /**
- *
- * @author maltsevk
+ * The service for executing queries to database.
  */
 public class Connector {
 
@@ -29,11 +28,10 @@ public class Connector {
     /**
      * Create connector to database.
      * Properties file should contains connection url. 
-     * Example 'name'.url = jdbc:postgresql://192.0.0.1:54321/db?user=admin&password=123
      * 
      * @param driver database jdbc driver
      * @param name connection url name from props.
-     * @throws SQLException 
+     * @throws SQLException if there is an error with driver registering or getting connection
      */
     public Connector(Driver driver, String name) throws SQLException {
         DriverManager.registerDriver(driver);
@@ -44,9 +42,9 @@ public class Connector {
      * Get query as table. 
      * Example: fetchAll("SELECT ID, NAME FROM USERS").get(0).get("NAME")
      *
-     * @param query query string
-     * @return Result set
-     * @throws java.sql.SQLException if any.
+     * @param query the query to execute
+     * @return a result set
+     * @throws java.sql.SQLException if there is an error with executing query
      */
     public List<Map<String, String>> fetchAll(String query) throws SQLException {
         if (null == query || query.isEmpty()) {
@@ -70,27 +68,10 @@ public class Connector {
     }
 
     /**
-     *
-     * @param query a {@link java.lang.String} object.
-     * @return a int.
-     * @throws java.sql.SQLException TODO
-     */
-    public int insertAuto(String query) throws SQLException {
-        if (null == query || query.isEmpty()) {
-            throw new SQLException("Query string is empty");
-        }
-
-        try (Statement statement = connection.createStatement()) {
-            return statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
-        } catch (SQLException e) {
-            throw new AutotestError("Failed to create statement for connection " + connection, e);
-        }
-    }
-
-    /**
-     *
-     * @param query a {@link java.lang.String} object.
-     * @throws java.sql.SQLException
+     * Execute query
+     * 
+     * @param query the query to execute
+     * @throws java.sql.SQLException if there is an error with executing query
      */
     public void insertStatic(String query) throws SQLException {
         if (null == query || query.isEmpty()) {
@@ -99,6 +80,25 @@ public class Connector {
 
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(query);
+        } catch (SQLException e) {
+            throw new AutotestError("Failed to create statement for connection " + connection, e);
+        }
+    }
+    
+    /**
+     * Execute query and return auto-generated key
+     * 
+     * @param query the query to execute
+     * @return an auto-generated key
+     * @throws java.sql.SQLException if there is an error with executing query
+     */
+    public int insertAuto(String query) throws SQLException {
+        if (null == query || query.isEmpty()) {
+            throw new SQLException("Query string is empty");
+        }
+
+        try (Statement statement = connection.createStatement()) {
+            return statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
         } catch (SQLException e) {
             throw new AutotestError("Failed to create statement for connection " + connection, e);
         }

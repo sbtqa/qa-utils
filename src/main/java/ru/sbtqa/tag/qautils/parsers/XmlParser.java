@@ -19,8 +19,6 @@ import ru.sbtqa.tag.qautils.parsers.interfaces.callback.ParserCallback;
 
 /**
  * Xml parser
- *
- * @author Konstantin Maltsev <mkypers@gmail.com>
  */
 public class XmlParser implements Parser, ParserCallback {
 

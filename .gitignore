@@ -1,2 +1,4 @@
 /.project
 /target/
+/..travis.yml.swp
+/travis.log

@@ -3,8 +3,6 @@ package ru.sbtqa.tag.qautils.parsers;
 /**
  * Item to parse.
  * Consist of string source to be parsed and path to be applied on source.
- * 
- * @author sbt-maltcev-kyu
  */
 public class ParserItem {
 

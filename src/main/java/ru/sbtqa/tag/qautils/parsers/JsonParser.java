@@ -10,8 +10,6 @@ import ru.sbtqa.tag.qautils.parsers.interfaces.callback.ParserCallback;
 
 /**
  * Json parser
- *
- * @author sbt-maltcev-kyu
  */
 public class JsonParser implements Parser, ParserCallback {
 

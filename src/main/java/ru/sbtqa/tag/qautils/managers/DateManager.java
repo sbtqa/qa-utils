@@ -11,8 +11,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * DateManager class.
- *
- * @author Viktor Sidochenko <viktor.sidochenko@gmail.com>
  */
 //TODO i18n
 public class DateManager {

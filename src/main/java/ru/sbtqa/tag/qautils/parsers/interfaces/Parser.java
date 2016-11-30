@@ -2,10 +2,6 @@ package ru.sbtqa.tag.qautils.parsers.interfaces;
 
 import ru.sbtqa.tag.qautils.parsers.exception.ParserException;
 
-/**
- * 
- * @author Konstantin Maltsev <mkypers@gmail.com>
- */
 public interface Parser {
 
     /**

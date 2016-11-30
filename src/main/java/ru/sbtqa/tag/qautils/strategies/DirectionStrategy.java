@@ -1,11 +1,5 @@
 package ru.sbtqa.tag.qautils.strategies;
 
-/**
- *
- * DirectionStrategy enum.
- *
- * @author Konstantin Maltsev <mkypers@gmail.com>
- */
 public enum DirectionStrategy {
 
     /**

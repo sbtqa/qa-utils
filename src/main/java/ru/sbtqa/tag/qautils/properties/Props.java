@@ -7,12 +7,6 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Properties Helper
- *
- *
- * @author Viktor Sidochenko <viktor.sidochenko@gmail.com>
- */
 public class Props {
 
     private static final Logger log = LoggerFactory.getLogger(Props.class);

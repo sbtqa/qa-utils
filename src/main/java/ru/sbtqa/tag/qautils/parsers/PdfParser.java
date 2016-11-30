@@ -17,8 +17,6 @@ import ru.sbtqa.tag.qautils.parsers.interfaces.callback.ParserCallback;
 
 /**
  * PDF file parser
- *
- * @author sbt-maltcev-kyu
  */
 public class PdfParser implements Parser, ParserCallback {
 
