@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.qautils.strategies;
 
-public enum SearchStrategy {
+public enum MatchStrategy {
+
     EXACT, CONTAINS
 }

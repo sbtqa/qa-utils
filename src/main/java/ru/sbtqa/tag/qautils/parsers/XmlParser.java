@@ -50,7 +50,7 @@ public class XmlParser implements Parser, ParserCallback {
 
     /**
      * Applies this xpath to provided source as document.
-     * 
+     *
      * @param source a {@link org.w3c.dom.Document} object
      * @param xpath the path to apply
      * @return a string matched by the given path
@@ -67,7 +67,7 @@ public class XmlParser implements Parser, ParserCallback {
 
     /**
      * Applies this xpath to provided source.
-     * 
+     *
      * @param source a string source
      * @param xpath the path to apply
      * @return a {@link org.w3c.dom.NodeList} object matched by the given path
@@ -87,7 +87,7 @@ public class XmlParser implements Parser, ParserCallback {
 
     /**
      * Applies this xpath to provided source.
-     * 
+     *
      * @param source a {@link org.w3c.dom.Document} object
      * @param xpath the path to apply
      * @return a {@link org.w3c.dom.NodeList} object matched by the given path

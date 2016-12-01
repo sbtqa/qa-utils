@@ -6,7 +6,7 @@ public interface Parser {
 
     /**
      * Applies this path to provided source.
-     * 
+     *
      * @param <T> expected return type
      * @param source a string source
      * @param path the path to apply

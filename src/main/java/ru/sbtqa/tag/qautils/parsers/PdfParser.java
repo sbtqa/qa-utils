@@ -37,7 +37,7 @@ public class PdfParser implements Parser, ParserCallback {
     /**
      * Applies this path to provided source as file name.
      * Render source file to string and apply the path on it.
-     * 
+     *
      * @param source the system-dependent file name
      * @param path the path to apply
      * @return a string matched by the given path

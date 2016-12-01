@@ -11,12 +11,11 @@ import java.util.List;
 public class FieldUtils extends org.apache.commons.lang3.reflect.FieldUtils {
 
     /**
-     * It is like {@link org.apache.commons.lang3.reflect.FieldUtils}
-     * getAllFieldsList but extended by inherited declared fields only. Very
-     * fast.
+     * It is like {@link org.apache.commons.lang3.reflect.FieldUtils} getAllFieldsList but
+     * extended by inherited declared fields only. Very fast.
      *
-     * @param clazz TODO
-     * @return {@link List} list of fields
+     * @param clazz the {@link java.lang.Class} to query
+     * @return {@link java.util.List} list of fields
      */
     public static List<Field> getDeclaredFieldsWithInheritance(Class clazz) {
         List<Field> fields = new ArrayList<>();
@@ -34,11 +33,10 @@ public class FieldUtils extends org.apache.commons.lang3.reflect.FieldUtils {
     }
 
     /**
-     * It is like {@link org.apache.commons.lang3.reflect.FieldUtils}
-     * getAllFieldsList but extended by inherited declared fields only. Very
-     * fast.
+     * It is like {@link org.apache.commons.lang3.reflect.FieldUtils} getAllFieldsList but
+     * extended by inherited declared fields only. Very fast.
      *
-     * @param object TODO
+     * @param object the object to reflect, must not be null
      * @return {@link List} list of fields
      */
     public static List<Field> getDeclaredFieldsWithInheritance(Object object) {

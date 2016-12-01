@@ -28,10 +28,10 @@ public class Connector {
     /**
      * Create connector to database.
      * Properties file should contains connection url. 
-     * 
+     *
      * @param driver database jdbc driver
      * @param name connection url name from props.
-     * @throws SQLException if there is an error with driver registering or getting connection
+     * @throws java.sql.SQLException if there is an error with driver registering or getting connection
      */
     public Connector(Driver driver, String name) throws SQLException {
         DriverManager.registerDriver(driver);
@@ -62,14 +62,14 @@ public class Connector {
                 }
                 results.add(resultsTmp);
             }
-            
+
             return results;
         }
     }
 
     /**
      * Execute query
-     * 
+     *
      * @param query the query to execute
      * @throws java.sql.SQLException if there is an error with executing query
      */
@@ -84,10 +84,10 @@ public class Connector {
             throw new AutotestError("Failed to create statement for connection " + connection, e);
         }
     }
-    
+
     /**
      * Execute query and return auto-generated key
-     * 
+     *
      * @param query the query to execute
      * @return an auto-generated key
      * @throws java.sql.SQLException if there is an error with executing query

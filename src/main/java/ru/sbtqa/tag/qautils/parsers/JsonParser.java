@@ -20,7 +20,7 @@ public class JsonParser implements Parser, ParserCallback {
         Object result = "";
         try {
             result = read(item.getSource(), item.getPath());
-            if(result instanceof JSONArray) {
+            if (result instanceof JSONArray) {
                 result = ((JSONArray) result).get(0);
             }
         } catch (ParserException e) {
