@@ -44,6 +44,7 @@ public class Props {
             }
             props = new Properties();
             props.load(in);
+            in.close();
         } catch (IOException e) {
             log.error("Failed to initialize props: " + e);
         }

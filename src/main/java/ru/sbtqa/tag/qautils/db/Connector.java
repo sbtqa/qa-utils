@@ -26,12 +26,13 @@ public class Connector {
     }
 
     /**
-     * Create connector to database.
-     * Properties file should contains connection url. 
+     * Create connector to database. Properties file should contains connection
+     * url.
      *
      * @param driver database jdbc driver
      * @param name connection url name from props.
-     * @throws java.sql.SQLException if there is an error with driver registering or getting connection
+     * @throws java.sql.SQLException if there is an error with driver
+     * registering or getting connection
      */
     public Connector(Driver driver, String name) throws SQLException {
         DriverManager.registerDriver(driver);
@@ -39,8 +40,8 @@ public class Connector {
     }
 
     /**
-     * Get query as table. 
-     * Example: fetchAll("SELECT ID, NAME FROM USERS").get(0).get("NAME")
+     * Get query as table. Example: fetchAll("SELECT ID, NAME FROM
+     * USERS").get(0).get("NAME")
      *
      * @param query the query to execute
      * @return a result set
@@ -53,16 +54,17 @@ public class Connector {
 
         try (Statement statement = connection.createStatement()) {
             List<Map<String, String>> results = new ArrayList<>();
-            ResultSet resultSet = statement.executeQuery(query);
-            ResultSetMetaData reslutSetMetaData = resultSet.getMetaData();
-            while (resultSet.next()) {
-                Map<String, String> resultsTmp = new HashMap<>();
-                for (int i = 1; i < reslutSetMetaData.getColumnCount() + 1; i++) {
-                    resultsTmp.put(reslutSetMetaData.getColumnName(i), resultSet.getString(reslutSetMetaData.getColumnLabel(i)));
+            try (ResultSet resultSet 
+                  = statement.executeQuery(query)) {
+                ResultSetMetaData reslutSetMetaData = resultSet.getMetaData();
+                while (resultSet.next()) {
+                    Map<String, String> resultsTmp = new HashMap<>();
+                    for (int i = 1; i < reslutSetMetaData.getColumnCount() + 1; i++) {
+                        resultsTmp.put(reslutSetMetaData.getColumnName(i), resultSet.getString(reslutSetMetaData.getColumnLabel(i)));
+                    }
+                    results.add(resultsTmp);
                 }
-                results.add(resultsTmp);
             }
-
             return results;
         }
     }
