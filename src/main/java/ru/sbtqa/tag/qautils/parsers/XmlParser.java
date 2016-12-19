@@ -23,6 +23,7 @@ import ru.sbtqa.tag.qautils.parsers.interfaces.callback.ParserCallback;
 public class XmlParser implements Parser, ParserCallback {
 
     private static final Logger log = LoggerFactory.getLogger(XmlParser.class);
+    private static final String GET_VALUE_EXCEPTION_MESSAGE = "Failed to get value in source by path ";
 
     @Override
     public String call(ParserItem item) {
@@ -61,7 +62,7 @@ public class XmlParser implements Parser, ParserCallback {
         try {
             return (String) xPath.compile(xpath).evaluate(source, XPathConstants.STRING);
         } catch (XPathExpressionException ex) {
-            throw new ParserException("Failed to get value by path " + xpath + " in source " + source, ex);
+            throw new ParserException(GET_VALUE_EXCEPTION_MESSAGE + source + ": " + xpath, ex);
         }
     }
 
@@ -81,7 +82,7 @@ public class XmlParser implements Parser, ParserCallback {
             Document xmlDocument = builderFactory.newDocumentBuilder().parse(new ByteArrayInputStream(source.getBytes("UTF-8")));
             return (NodeList) xPath.compile(xpath).evaluate(xmlDocument, XPathConstants.NODESET);
         } catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException ex) {
-            throw new ParserException("Failed to get value by path " + xpath + " in source " + source, ex);
+            throw new ParserException(GET_VALUE_EXCEPTION_MESSAGE + source + ": " + xpath, ex);
         }
     }
 
@@ -98,7 +99,7 @@ public class XmlParser implements Parser, ParserCallback {
         try {
             return (NodeList) xPath.compile(xpath).evaluate(source, XPathConstants.NODESET);
         } catch (XPathExpressionException ex) {
-            throw new ParserException("Failed to get value by path " + xpath + " in source " + source, ex);
+            throw new ParserException(GET_VALUE_EXCEPTION_MESSAGE + source + ": " + xpath, ex);
         }
     }
 }

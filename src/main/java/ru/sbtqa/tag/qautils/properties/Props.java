@@ -21,7 +21,11 @@ public class Props {
      */
     public synchronized static Props getInstance() {
         if (instance == null) {
-            instance = new Props();
+            try {
+                instance = new Props();
+            } catch (IOException e) {
+                log.error("Failed to close properties file", e);
+            }
         }
         return instance;
     }
@@ -30,23 +34,27 @@ public class Props {
      * Constructs Props object. It loads properties from filesystem path set in
      * the <b>BDDConfigFile</b> system properties or from classpath
      * config/application.properties by default.
+     * @throws java.io.IOException TODO
      */
-    public Props() {
+    public Props() throws IOException {
+        System.setProperty("logback.configurationFile", "config/logback.xml");
+        String sConfigFile = System.getProperty("BDDConfigFile", "config/application.properties");
+        log.info("Loading properties from: " + sConfigFile);
+        //first try to load properties from resources
+        InputStream in = Props.class.getClassLoader().getResourceAsStream(sConfigFile);
+        props = new Properties();
+        //if failed try to load from filesystem
         try {
-            System.setProperty("logback.configurationFile", "config/logback.xml");
-            String sConfigFile = System.getProperty("BDDConfigFile", "config/application.properties");
-            log.info("Loading properties from: " + sConfigFile);
-            //first try to load properties from resources
-            InputStream in = Props.class.getClassLoader().getResourceAsStream(sConfigFile);
-            //if failed try to load from filesystem
             if (in == null) {
                 in = new FileInputStream(sConfigFile);
             }
-            props = new Properties();
             props.load(in);
-            in.close();
         } catch (IOException e) {
-            log.error("Failed to initialize props: " + e);
+            log.error("Failed to open and load properties file", e);
+        } finally {
+            if (in != null) {
+                in.close();
+            }
         }
     }
 

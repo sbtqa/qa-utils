@@ -20,6 +20,7 @@ import ru.sbtqa.tag.qautils.properties.Props;
 public class Connector {
 
     private final Connection connection;
+    private static final String EMPTY_QUERY_EXCEPTION_MESSAGE = "Query string is empty";
 
     public Connector(Connection connection) {
         this.connection = connection;
@@ -49,21 +50,23 @@ public class Connector {
      */
     public List<Map<String, String>> fetchAll(String query) throws SQLException {
         if (null == query || query.isEmpty()) {
-            throw new SQLException("Query string is empty");
+            throw new SQLException(EMPTY_QUERY_EXCEPTION_MESSAGE);
         }
 
-        try (Statement statement = connection.createStatement()) {
+        try (
+            Statement statement = 
+                connection.createStatement();
+            ResultSet resultSet = 
+                statement.executeQuery(query)
+        ) {
             List<Map<String, String>> results = new ArrayList<>();
-            try (ResultSet resultSet 
-                  = statement.executeQuery(query)) {
-                ResultSetMetaData reslutSetMetaData = resultSet.getMetaData();
-                while (resultSet.next()) {
-                    Map<String, String> resultsTmp = new HashMap<>();
-                    for (int i = 1; i < reslutSetMetaData.getColumnCount() + 1; i++) {
-                        resultsTmp.put(reslutSetMetaData.getColumnName(i), resultSet.getString(reslutSetMetaData.getColumnLabel(i)));
-                    }
-                    results.add(resultsTmp);
+            ResultSetMetaData reslutSetMetaData = resultSet.getMetaData();
+            while (resultSet.next()) {
+                Map<String, String> resultsTmp = new HashMap<>();
+                for (int i = 1; i < reslutSetMetaData.getColumnCount() + 1; i++) {
+                    resultsTmp.put(reslutSetMetaData.getColumnName(i), resultSet.getString(reslutSetMetaData.getColumnLabel(i)));
                 }
+                results.add(resultsTmp);
             }
             return results;
         }
@@ -77,7 +80,7 @@ public class Connector {
      */
     public void insertStatic(String query) throws SQLException {
         if (null == query || query.isEmpty()) {
-            throw new SQLException("Query string is empty");
+            throw new SQLException(EMPTY_QUERY_EXCEPTION_MESSAGE);
         }
 
         try (Statement statement = connection.createStatement()) {
@@ -96,7 +99,7 @@ public class Connector {
      */
     public int insertAuto(String query) throws SQLException {
         if (null == query || query.isEmpty()) {
-            throw new SQLException("Query string is empty");
+            throw new SQLException(EMPTY_QUERY_EXCEPTION_MESSAGE);
         }
 
         try (Statement statement = connection.createStatement()) {
