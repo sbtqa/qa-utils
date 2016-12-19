@@ -79,10 +79,9 @@ public class Props {
      * @return property value.
      */
     public static String get(String prop) {
-        try {
-            return Props.getInstance().getProp(prop);
-        } catch (NullPointerException e) {
-            log.error("Failed to read properties file", e);
+        if (instance != null) {
+            return instance.getProp(prop);
+        } else {
             return null;
         }
     }
@@ -95,16 +94,18 @@ public class Props {
      * @return property value.
      */
     public static String get(String prop, String defaultValue) {
-        String val = "";
-        try {
-            val = Props.getInstance().getProp(prop);
-        } catch (NullPointerException e) {
-            log.error("Failed to read properties file", e);
+        if (instance != null) {
+            String value = "";
+            value = Props.getInstance().getProp(prop);
+
+            if (value.isEmpty()) {
+                return defaultValue;
+            }
+            return value;
+        } else {
+            return null;
         }
-        if (val.isEmpty()) {
-            return defaultValue;
-        }
-        return val;
+
     }
 
     /**
