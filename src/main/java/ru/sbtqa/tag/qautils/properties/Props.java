@@ -34,6 +34,7 @@ public class Props {
      * Constructs Props object. It loads properties from filesystem path set in
      * the <b>BDDConfigFile</b> system properties or from classpath
      * config/application.properties by default.
+     *
      * @throws java.io.IOException TODO
      */
     public Props() throws IOException {
@@ -49,8 +50,6 @@ public class Props {
                 in = new FileInputStream(sConfigFile);
             }
             props.load(in);
-        } catch (IOException e) {
-            log.error("Failed to open and load properties file", e);
         } finally {
             if (in != null) {
                 in.close();
@@ -68,7 +67,7 @@ public class Props {
     private String getProp(String name) {
         String val = getProps().getProperty(name, "");
         if (val.isEmpty()) {
-            log.debug("Property {} was not found in Props", name);
+            log.error("Property {} was not found in Props", name);
         }
         return val.trim();
     }
@@ -80,7 +79,12 @@ public class Props {
      * @return property value.
      */
     public static String get(String prop) {
-        return Props.getInstance().getProp(prop);
+        try {
+            return Props.getInstance().getProp(prop);
+        } catch (NullPointerException e) {
+            log.error("Failed to read properties file", e);
+            return null;
+        }
     }
 
     /**
@@ -91,7 +95,12 @@ public class Props {
      * @return property value.
      */
     public static String get(String prop, String defaultValue) {
-        String val = Props.getInstance().getProp(prop);
+        String val = "";
+        try {
+            val = Props.getInstance().getProp(prop);
+        } catch (NullPointerException e) {
+            log.error("Failed to read properties file", e);
+        }
         if (val.isEmpty()) {
             return defaultValue;
         }
