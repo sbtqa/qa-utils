@@ -12,14 +12,41 @@ public class Props {
     private static final Logger log = LoggerFactory.getLogger(Props.class);
 
     private static Props instance;
-    private static Properties props;
+    private static Properties properties;
 
+    /**
+     * Constructs Props object. It loads properties from filesystem path set in
+     * the <b>BDDConfigFile</b> system properties or from classpath
+     * config/application.properties by default.
+     *
+     * @throws java.io.IOException if there are an error to read properties file
+     */
+    public Props() throws IOException {
+        System.setProperty("logback.configurationFile", "config/logback.xml");
+        String sConfigFile = System.getProperty("BDDConfigFile", "config/application.properties");
+        log.info("Loading properties from: " + sConfigFile);
+        //first try to load properties from resources
+        InputStream in = Props.class.getClassLoader().getResourceAsStream(sConfigFile);
+        properties = new Properties();
+        //if failed try to load from filesystem
+        try {
+            if (in == null) {
+                in = new FileInputStream(sConfigFile);
+            }
+            properties.load(in);
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+        }
+    }
+    
     /**
      * Creates single instance of Props class or returns already created
      *
      * @return instance of Props
      */
-    public synchronized static Props getInstance() {
+    public static synchronized Props getInstance() {
         if (instance == null) {
             try {
                 instance = new Props();
@@ -28,33 +55,6 @@ public class Props {
             }
         }
         return instance;
-    }
-
-    /**
-     * Constructs Props object. It loads properties from filesystem path set in
-     * the <b>BDDConfigFile</b> system properties or from classpath
-     * config/application.properties by default.
-     *
-     * @throws java.io.IOException TODO
-     */
-    public Props() throws IOException {
-        System.setProperty("logback.configurationFile", "config/logback.xml");
-        String sConfigFile = System.getProperty("BDDConfigFile", "config/application.properties");
-        log.info("Loading properties from: " + sConfigFile);
-        //first try to load properties from resources
-        InputStream in = Props.class.getClassLoader().getResourceAsStream(sConfigFile);
-        props = new Properties();
-        //if failed try to load from filesystem
-        try {
-            if (in == null) {
-                in = new FileInputStream(sConfigFile);
-            }
-            props.load(in);
-        } finally {
-            if (in != null) {
-                in.close();
-            }
-        }
     }
 
     /**
@@ -112,6 +112,6 @@ public class Props {
      * @return the props
      */
     public static Properties getProps() {
-        return props;
+        return properties;
     }
 }

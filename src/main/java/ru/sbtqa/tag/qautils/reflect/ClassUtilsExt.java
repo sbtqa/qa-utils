@@ -6,7 +6,6 @@ import java.util.List;
 /**
  * Reflection helper to deal with classes
  *
- * @author sbt-sidochenko-vv
  */
 public class ClassUtilsExt extends org.apache.commons.lang3.ClassUtils {
 
@@ -14,8 +13,8 @@ public class ClassUtilsExt extends org.apache.commons.lang3.ClassUtils {
      * It is like {@link org.apache.commons.lang3.ClassUtils}
      * getAllSuperClasses but extended by Really all possible super classes.
      *
-     * @param clazz
-     * @return {@link List} list of super classes
+     * @param clazz the class to reflect
+     * @return {@link List} a list of super classes
      */
     public static List<Class> getSuperclassesWithInheritance(Class clazz) {
         List<Class> classes = new ArrayList<>();

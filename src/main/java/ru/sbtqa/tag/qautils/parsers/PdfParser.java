@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.pdf.PDFParser;
 import org.apache.tika.sax.ToXMLContentHandler;
 import org.slf4j.Logger;
@@ -49,7 +50,8 @@ public class PdfParser implements Parser, ParserCallback {
         try (InputStream pdf = new FileInputStream(source)) {
             PDFParser parser = new PDFParser();
             handler = new ToXMLContentHandler();
-            parser.parse(pdf, handler, new Metadata());
+            ParseContext context = new ParseContext();
+            parser.parse(pdf, handler, new Metadata(), context);
             return new XmlParser().read(handler.toString(), path);
         } catch (IOException | SAXException | TikaException ex) {
             throw new ParserException("Failed to get value by path " + path + " in source " + source, ex);

@@ -16,6 +16,7 @@ import org.xml.sax.SAXException;
 import ru.sbtqa.tag.qautils.parsers.exception.ParserException;
 import ru.sbtqa.tag.qautils.parsers.interfaces.Parser;
 import ru.sbtqa.tag.qautils.parsers.interfaces.callback.ParserCallback;
+import ru.sbtqa.tag.qautils.properties.Props;
 
 /**
  * Xml parser
@@ -41,8 +42,7 @@ public class XmlParser implements Parser, ParserCallback {
     public String read(String source, String xpath) throws ParserException {
         DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
         try {
-            //TODO take source encode from props
-            Document xmlDocument = builderFactory.newDocumentBuilder().parse(new ByteArrayInputStream(source.getBytes("UTF-8")));
+            Document xmlDocument = builderFactory.newDocumentBuilder().parse(new ByteArrayInputStream(source.getBytes(Props.get("parser.encoding", "UTF-8"))));
             return read(xmlDocument, xpath);
         } catch (ParserConfigurationException | SAXException | IOException ex) {
             throw new ParserException("Failed to cast string source to xml document", ex);
@@ -78,8 +78,7 @@ public class XmlParser implements Parser, ParserCallback {
         DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
         XPath xPath = XPathFactory.newInstance().newXPath();
         try {
-            //TODO take source encode from props
-            Document xmlDocument = builderFactory.newDocumentBuilder().parse(new ByteArrayInputStream(source.getBytes("UTF-8")));
+            Document xmlDocument = builderFactory.newDocumentBuilder().parse(new ByteArrayInputStream(source.getBytes(Props.get("parser.encoding", "UTF-8"))));
             return (NodeList) xPath.compile(xpath).evaluate(xmlDocument, XPathConstants.NODESET);
         } catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException ex) {
             throw new ParserException(GET_VALUE_EXCEPTION_MESSAGE + source + ": " + xpath, ex);

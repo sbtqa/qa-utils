@@ -6,17 +6,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ru.sbtqa.tag.qautils.strategies.DateStrategy;
 
 /**
  * Support class to work with date and time.
  */
 public class DateManager {
-
-    private static final Logger log = LoggerFactory.getLogger(DateManager.class);
-
+    
     private static final DateFormatSymbols alphabeticFormatSymbols = new DateFormatSymbols() {
 
         @Override
@@ -26,6 +22,11 @@ public class DateManager {
         }
     };
 
+    private DateManager() {
+        throw new IllegalAccessError("Utility class");
+    }
+    
+    
     /**
      * Get current date and time
      *
