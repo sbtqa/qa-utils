@@ -24,23 +24,19 @@ public class Props {
     public Props() throws IOException {
         System.setProperty("logback.configurationFile", "config/logback.xml");
         String sConfigFile = System.getProperty("BDDConfigFile", "config/application.properties");
-        log.info("Loading properties from: " + sConfigFile);
-        //first try to load properties from resources
-        InputStream in = Props.class.getClassLoader().getResourceAsStream(sConfigFile);
         properties = new Properties();
-        //if failed try to load from filesystem
-        try {
-            if (in == null) {
-                in = new FileInputStream(sConfigFile);
-            }
-            properties.load(in);
-        } finally {
-            if (in != null) {
-                in.close();
+        log.info("Loading properties from: " + sConfigFile);
+        try (InputStream streamFromResources = Props.class.getClassLoader().getResourceAsStream(sConfigFile);
+             InputStream streamFromFilesystem = new FileInputStream(sConfigFile)) {
+            //first try to load properties from resources. If failed try to load from filesystem
+            if (streamFromResources != null) {
+                properties.load(streamFromResources);
+            } else {
+                properties.load(streamFromFilesystem);
             }
         }
     }
-    
+
     /**
      * Creates single instance of Props class or returns already created
      *
@@ -100,7 +96,7 @@ public class Props {
             if (value.isEmpty()) {
                 return defaultValue;
             }
-            
+
             return value;
         } else {
             return null;

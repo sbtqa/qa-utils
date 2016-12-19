@@ -12,9 +12,8 @@ import java.util.List;
 public class FieldUtilsExt extends org.apache.commons.lang3.reflect.FieldUtils {
 
     /**
-     * It is like
-     * {@link org.apache.commons.lang3.reflect.FieldUtils} getAllFieldsList but
-     * extended by inherited declared fields only. Very fast.
+     * It is like {@link org.apache.commons.lang3.reflect.FieldUtils}
+     * getAllFieldsList but extended by inherited declared fields only.
      *
      * @param clazz the class to reflect
      * @return {@link List} a list of fields
@@ -35,9 +34,9 @@ public class FieldUtilsExt extends org.apache.commons.lang3.reflect.FieldUtils {
     }
 
     /**
-     * It is like
-     * {@link org.apache.commons.lang3.reflect.FieldUtils} getAllFieldsList but
-     * extended by inherited declared fields only. Very fast.
+     * It is like {@link org.apache.commons.lang3.reflect.FieldUtils}
+     * getAllFieldsList but extended by inherited declared fields only. Very
+     * fast.
      *
      * @param object the class to reflect
      * @return {@link List} a list of fields
