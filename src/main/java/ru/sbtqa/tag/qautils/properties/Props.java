@@ -95,12 +95,12 @@ public class Props {
      */
     public static String get(String prop, String defaultValue) {
         if (instance != null) {
-            String value = "";
-            value = Props.getInstance().getProp(prop);
+            String value = instance.getProp(prop);
 
             if (value.isEmpty()) {
                 return defaultValue;
             }
+            
             return value;
         } else {
             return null;
