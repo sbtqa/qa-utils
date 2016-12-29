@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.qautils.properties;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -22,18 +21,11 @@ public class Props {
      * @throws java.io.IOException if there are an error to read properties file
      */
     public Props() throws IOException {
-        System.setProperty("logback.configurationFile", "config/logback.xml");
         String sConfigFile = System.getProperty("BDDConfigFile", "config/application.properties");
         properties = new Properties();
         log.info("Loading properties from: " + sConfigFile);
-        try (InputStream streamFromResources = Props.class.getClassLoader().getResourceAsStream(sConfigFile);
-             InputStream streamFromFilesystem = new FileInputStream(sConfigFile)) {
-            //first try to load properties from resources. If failed try to load from filesystem
-            if (streamFromResources != null) {
-                properties.load(streamFromResources);
-            } else {
-                properties.load(streamFromFilesystem);
-            }
+        try (InputStream streamFromResources = Props.class.getClassLoader().getResourceAsStream(sConfigFile);) {
+            properties.load(streamFromResources);
         }
     }
 
@@ -63,7 +55,7 @@ public class Props {
     private String getProp(String name) {
         String val = getProps().getProperty(name, "");
         if (val.isEmpty()) {
-            log.error("Property {} was not found in Props", name);
+            log.warn("Property {} was not found in properties file", name);
         }
         return val.trim();
     }
@@ -75,11 +67,7 @@ public class Props {
      * @return property value.
      */
     public static String get(String prop) {
-        if (instance != null) {
-            return instance.getProp(prop);
-        } else {
-            return null;
-        }
+        return getInstance().getProp(prop);
     }
 
     /**
@@ -90,18 +78,13 @@ public class Props {
      * @return property value.
      */
     public static String get(String prop, String defaultValue) {
-        if (instance != null) {
-            String value = instance.getProp(prop);
+        String value = getInstance().getProp(prop);
 
-            if (value.isEmpty()) {
-                return defaultValue;
-            }
-
-            return value;
-        } else {
-            return null;
+        if (value.isEmpty()) {
+            return defaultValue;
         }
 
+        return value;
     }
 
     /**
