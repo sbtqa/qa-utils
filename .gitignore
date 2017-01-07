@@ -2,3 +2,4 @@
 /target/
 /..travis.yml.swp
 /travis.log
+/nb-configuration.xml
