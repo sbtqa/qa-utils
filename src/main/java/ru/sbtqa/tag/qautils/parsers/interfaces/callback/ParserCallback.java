@@ -1,6 +1,5 @@
 package ru.sbtqa.tag.qautils.parsers.interfaces.callback;
 
-import javafx.util.Callback;
 import ru.sbtqa.tag.qautils.parsers.ParserItem;
 
 public interface ParserCallback extends Callback<ParserItem, Object> {
