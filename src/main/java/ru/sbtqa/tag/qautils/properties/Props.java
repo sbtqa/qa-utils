@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 public class Props {
 
-    private static final Logger log = LoggerFactory.getLogger(Props.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Props.class);
 
     private static Props instance;
     private static Properties properties;
@@ -23,7 +23,7 @@ public class Props {
     public Props() throws IOException {
         String sConfigFile = System.getProperty("BDDConfigFile", "config/application.properties");
         properties = new Properties();
-        log.info("Loading properties from: " + sConfigFile);
+        LOG.info("Loading properties from {}", sConfigFile);
         try (InputStream streamFromResources = Props.class.getClassLoader().getResourceAsStream(sConfigFile);) {
             properties.load(streamFromResources);
         }
@@ -39,7 +39,7 @@ public class Props {
             try {
                 instance = new Props();
             } catch (IOException e) {
-                log.error("Failed to close properties file", e);
+                throw new PropsRuntimeException("Failed to open or close properties file", e);
             }
         }
         return instance;
@@ -55,7 +55,7 @@ public class Props {
     private String getProp(String name) {
         String val = getProps().getProperty(name, "");
         if (val.isEmpty()) {
-            log.warn("Property {} was not found in properties file", name);
+            LOG.warn("Property {} was not found in properties file", name);
         }
         return val.trim();
     }
