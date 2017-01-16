@@ -3,6 +3,7 @@ package ru.sbtqa.tag.qautils.properties;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,34 +14,28 @@ public class Props {
     private static Props instance;
     private static Properties properties;
 
-    /**
-     * Constructs Props object. It loads properties from filesystem path set in
-     * the <b>BDDConfigFile</b> system properties or from classpath
-     * config/application.properties by default.
-     *
-     * @throws java.io.IOException if there are an error to read properties file
-     */
-    public Props() throws IOException {
-        String sConfigFile = System.getProperty("BDDConfigFile", "config/application.properties");
+    private Props() {
+        String sConfigFile = System.getProperty("TagConfigFile", "config/application.properties");
         properties = new Properties();
         LOG.info("Loading properties from {}", sConfigFile);
         try (InputStream streamFromResources = Props.class.getClassLoader().getResourceAsStream(sConfigFile);) {
             properties.load(streamFromResources);
+        } catch (IOException e) {
+            throw new PropsRuntimeException("Failed to access properties file", e);
         }
     }
 
     /**
-     * Creates single instance of Props class or returns already created
+     * Creates single instance of Props class or returns already created It
+     * loads properties from filesystem path set in the <b>TagConfigFile</b>
+     * system properties or from classpath config/application.properties by
+     * default.
      *
      * @return instance of Props
      */
     public static synchronized Props getInstance() {
         if (instance == null) {
-            try {
-                instance = new Props();
-            } catch (IOException e) {
-                throw new PropsRuntimeException("Failed to open or close properties file", e);
-            }
+            instance = new Props();
         }
         return instance;
     }
