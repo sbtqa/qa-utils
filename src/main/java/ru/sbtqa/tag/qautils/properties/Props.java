@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.qautils.properties;
 
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
