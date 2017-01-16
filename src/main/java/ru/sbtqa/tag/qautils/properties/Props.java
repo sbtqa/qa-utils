@@ -26,10 +26,10 @@ public class Props {
     }
 
     /**
-     * Creates single instance of Props class or returns already created
-     * It loads properties from filesystem path set in
-     * the <b>TagConfigFile</b> system properties or from classpath
-     * config/application.properties by default.
+     * Creates single instance of Props class or returns already created It
+     * loads properties from filesystem path set in the <b>TagConfigFile</b>
+     * system properties or from classpath config/application.properties by
+     * default.
      *
      * @return instance of Props
      */
@@ -68,7 +68,7 @@ public class Props {
     /**
      * Get property from file
      *
-     * @param prop         property name.
+     * @param prop property name.
      * @param defaultValue default value if not set
      * @return property value.
      */
