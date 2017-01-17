@@ -3,7 +3,6 @@ package ru.sbtqa.tag.qautils.properties;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +49,7 @@ public class Props {
     private String getProp(String name) {
         String val = getProps().getProperty(name, "");
         if (val.isEmpty()) {
-            LOG.warn("Property {} was not found in properties file", name);
+            LOG.debug("Property {} was not found in properties file", name);
         }
         return val.trim();
     }
