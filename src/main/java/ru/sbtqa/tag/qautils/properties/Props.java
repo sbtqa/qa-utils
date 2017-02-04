@@ -2,6 +2,7 @@ package ru.sbtqa.tag.qautils.properties;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +18,9 @@ public class Props {
         String sConfigFile = System.getProperty("TagConfigFile", "config/application.properties");
         properties = new Properties();
         LOG.info("Loading properties from {}", sConfigFile);
-        try (InputStream streamFromResources = Props.class.getClassLoader().getResourceAsStream(sConfigFile);) {
-            properties.load(streamFromResources);
+        try (InputStream streamFromResources = Props.class.getClassLoader().getResourceAsStream(sConfigFile)) {
+            InputStreamReader isr = new InputStreamReader(streamFromResources, "UTF-8");
+            properties.load(isr);
         } catch (IOException e) {
             throw new PropsRuntimeException("Failed to access properties file", e);
         }
