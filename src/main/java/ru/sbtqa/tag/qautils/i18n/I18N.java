@@ -50,7 +50,7 @@ public class I18N extends Properties {
      * @return Resources for given class
      */
     public static final I18N getI18n(Class callerClass, String bundlePath) {
-        return getI18n(callerClass, Locale.getDefault(), "i18n");
+        return getI18n(callerClass, Locale.getDefault(), bundlePath);
     }
 
     /**
@@ -66,8 +66,8 @@ public class I18N extends Properties {
         String classPath = callerClass.getPackage().getName().replaceAll("\\.", File.separator);
         String s = File.separator;
         String resourceFile = bundlePath + s + classPath + s + className + s +
-                locale.getCountry() + ".properties";
-        LOG.info("Loading i18n bundle from {}", resourceFile);
+                locale.getLanguage() + ".properties";
+        LOG.debug("Loading i18n bundle from {}", resourceFile);
         I18N properties = new I18N();
         try (InputStream streamFromResources = I18N.class.getClassLoader().getResourceAsStream(resourceFile)) {
             InputStreamReader isr = new InputStreamReader(streamFromResources, "UTF-8");
