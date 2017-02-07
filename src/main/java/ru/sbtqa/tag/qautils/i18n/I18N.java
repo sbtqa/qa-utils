@@ -21,7 +21,7 @@ public class I18N {
 
     private static final Logger LOG = LoggerFactory.getLogger(I18N.class);
     private static final Map<String, I18N> bundleStorage = new HashMap<>();
-    private Properties properties = new Properties();
+    private final Properties properties = new Properties();
     private String bundleFile;
 
 
@@ -65,7 +65,7 @@ public class I18N {
      * @param bundlePath Resources parent path
      * @return Resources for given class
      */
-    public static synchronized final I18N getI18n(Class callerClass, Locale locale, String bundlePath) {
+    public static final I18N getI18n(Class callerClass, Locale locale, String bundlePath) {
         String className = callerClass.getSimpleName();
         String classPath = callerClass.getPackage().getName().replaceAll("\\.", File.separator);
         String s = File.separator;
@@ -81,7 +81,9 @@ public class I18N {
             } catch (IOException e) {
                 throw new I18NRuntimeException("Failed to access bundle properties file", e);
             }
-            bundleStorage.put(resourceFile, bundle);
+            synchronized (bundleStorage) {
+                bundleStorage.put(resourceFile, bundle);
+            }
         }
         return bundleStorage.get(resourceFile);
     }
