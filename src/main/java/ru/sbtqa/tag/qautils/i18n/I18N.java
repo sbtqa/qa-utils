@@ -20,7 +20,8 @@ import java.util.HashMap;
 public class I18N {
 
     private static final Logger LOG = LoggerFactory.getLogger(I18N.class);
-    private static final Map<String, I18N> bundleStorage = new HashMap<>();
+    private static final Map<String, I18N> BUNDLE_STORAGE = new HashMap<>();
+    private static final String BUNDLE_ENCODING = "UTF-8";
     private final Properties properties = new Properties();
     private String bundleFile;
 
@@ -72,20 +73,20 @@ public class I18N {
         String resourceFile = bundlePath + s + classPath + s + className + s +
                 locale.getLanguage() + ".properties";
         LOG.debug("Loading i18n bundle from {}", resourceFile);
-        if (bundleStorage.get(resourceFile) == null) {
+        if (BUNDLE_STORAGE.get(resourceFile) == null) {
             I18N bundle = new I18N();
             bundle.bundleFile = resourceFile;
             try (InputStream streamFromResources = I18N.class.getClassLoader().getResourceAsStream(resourceFile)) {
-                InputStreamReader isr = new InputStreamReader(streamFromResources, "UTF-8");
+                InputStreamReader isr = new InputStreamReader(streamFromResources, BUNDLE_ENCODING);
                 bundle.properties.load(isr);
             } catch (IOException e) {
                 throw new I18NRuntimeException("Failed to access bundle properties file", e);
             }
-            synchronized (bundleStorage) {
-                bundleStorage.put(resourceFile, bundle);
+            synchronized (BUNDLE_STORAGE) {
+                BUNDLE_STORAGE.put(resourceFile, bundle);
             }
         }
-        return bundleStorage.get(resourceFile);
+        return BUNDLE_STORAGE.get(resourceFile);
     }
 
     /**
@@ -106,7 +107,7 @@ public class I18N {
     /**
      * Swap keys and values in bundle
      *
-     * @return
+     * @return Reversed bundle
      */
     public I18N reverse() {
         Set<Map.Entry<Object, Object>> entries = properties.entrySet();
@@ -120,7 +121,7 @@ public class I18N {
     /**
      * Represent bundle as map
      *
-     * @return
+     * @return Bundle as map
      */
     public Map<String, String> toMap() {
         Map<String, String> map = new HashMap<>();
