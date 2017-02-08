@@ -15,16 +15,16 @@ import java.util.Set;
 import java.util.HashMap;
 
 /**
- * i18n resource bundle from utf-8 properties
+ * i18n resource bundle from UTF-8 properties
  */
 public class I18N {
 
     private static final Logger LOG = LoggerFactory.getLogger(I18N.class);
     private static final Map<String, I18N> BUNDLE_STORAGE = new HashMap<>();
     private static final String BUNDLE_ENCODING = "UTF-8";
+    public static final String DEFAULT_BUNDLE_PATH = "i18n";
     private final Properties properties = new Properties();
     private String bundleFile;
-
 
     /**
      * Gets bundle with default system locale and i18n as parent path
@@ -33,7 +33,7 @@ public class I18N {
      * @return Resources for given class
      */
     public static final I18N getI18n(Class callerClass) {
-        return getI18n(callerClass, Locale.getDefault(), "i18n");
+        return getI18n(callerClass, Locale.getDefault(), DEFAULT_BUNDLE_PATH);
     }
 
     /**
@@ -44,7 +44,7 @@ public class I18N {
      * @return Resources for given class
      */
     public static final I18N getI18n(Class callerClass, Locale locale) {
-        return getI18n(callerClass, locale, "i18n");
+        return getI18n(callerClass, locale, DEFAULT_BUNDLE_PATH);
     }
 
     /**
@@ -70,8 +70,8 @@ public class I18N {
         String className = callerClass.getSimpleName();
         String classPath = callerClass.getPackage().getName().replaceAll("\\.", File.separator);
         String s = File.separator;
-        String resourceFile = bundlePath + s + classPath + s + className + s +
-                locale.getLanguage() + ".properties";
+        String resourceFile = bundlePath + s + classPath + s + className + s
+                + locale.getLanguage() + ".properties";
         LOG.debug("Loading i18n bundle from {}", resourceFile);
         if (BUNDLE_STORAGE.get(resourceFile) == null) {
             I18N bundle = new I18N();
@@ -79,7 +79,7 @@ public class I18N {
             try (InputStream streamFromResources = I18N.class.getClassLoader().getResourceAsStream(resourceFile)) {
                 InputStreamReader isr = new InputStreamReader(streamFromResources, BUNDLE_ENCODING);
                 bundle.properties.load(isr);
-            } catch (IOException e) {
+            } catch (IOException| NullPointerException e) {
                 throw new I18NRuntimeException("Failed to access bundle properties file", e);
             }
             synchronized (BUNDLE_STORAGE) {
@@ -98,7 +98,7 @@ public class I18N {
     public String get(String key) {
         String translation = properties.getProperty(key);
         if (translation == null) {
-            LOG.warn("There is no \"{}\" key in \"{}\" bundle. Failing back to {}", key, this.bundleFile, key);
+            LOG.debug("There is no \"{}\" key in \"{}\" bundle. Failing back to {}", key, this.bundleFile, key);
             translation = key;
         }
         return translation;
