@@ -17,11 +17,11 @@ public class Props {
     private Props() {
         String sConfigFile = System.getProperty("TagConfigFile", "config/application.properties");
         properties = new Properties();
-        LOG.info("Loading properties from {}", sConfigFile);
+        LOG.debug("Loading properties from {}", sConfigFile);
         try (InputStream streamFromResources = Props.class.getClassLoader().getResourceAsStream(sConfigFile)) {
             InputStreamReader isr = new InputStreamReader(streamFromResources, "UTF-8");
             properties.load(isr);
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             throw new PropsRuntimeException("Failed to access properties file", e);
         }
     }
