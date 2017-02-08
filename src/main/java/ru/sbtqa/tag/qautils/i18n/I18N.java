@@ -12,13 +12,18 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.HashMap;
 
 /**
  * i18n resource bundle from utf-8 properties
  */
-public class I18N extends Properties {
+public class I18N {
 
     private static final Logger LOG = LoggerFactory.getLogger(I18N.class);
+    private static final Map<String, I18N> BUNDLE_STORAGE = new HashMap<>();
+    private static final String BUNDLE_ENCODING = "UTF-8";
+    private final Properties properties = new Properties();
+    private String bundleFile;
 
 
     /**
@@ -68,27 +73,61 @@ public class I18N extends Properties {
         String resourceFile = bundlePath + s + classPath + s + className + s +
                 locale.getLanguage() + ".properties";
         LOG.debug("Loading i18n bundle from {}", resourceFile);
-        I18N properties = new I18N();
-        try (InputStream streamFromResources = I18N.class.getClassLoader().getResourceAsStream(resourceFile)) {
-            InputStreamReader isr = new InputStreamReader(streamFromResources, "UTF-8");
-            properties.load(isr);
-        } catch (IOException e) {
-            throw new I18NRuntimeException("Failed to access bundle properties file", e);
+        if (BUNDLE_STORAGE.get(resourceFile) == null) {
+            I18N bundle = new I18N();
+            bundle.bundleFile = resourceFile;
+            try (InputStream streamFromResources = I18N.class.getClassLoader().getResourceAsStream(resourceFile)) {
+                InputStreamReader isr = new InputStreamReader(streamFromResources, BUNDLE_ENCODING);
+                bundle.properties.load(isr);
+            } catch (IOException e) {
+                throw new I18NRuntimeException("Failed to access bundle properties file", e);
+            }
+            synchronized (BUNDLE_STORAGE) {
+                BUNDLE_STORAGE.put(resourceFile, bundle);
+            }
         }
-        return properties;
+        return BUNDLE_STORAGE.get(resourceFile);
+    }
+
+    /**
+     * Get translation by key
+     *
+     * @param key translation key
+     * @return Translation or key if no translation found
+     */
+    public String get(String key) {
+        String translation = properties.getProperty(key);
+        if (translation == null) {
+            LOG.warn("There is no \"{}\" key in \"{}\" bundle. Failing back to {}", key, this.bundleFile, key);
+            translation = key;
+        }
+        return translation;
     }
 
     /**
      * Swap keys and values in bundle
      *
-     * @return
+     * @return Reversed bundle
      */
     public I18N reverse() {
-        Set<Map.Entry<Object, Object>> entries = this.entrySet();
+        Set<Map.Entry<Object, Object>> entries = properties.entrySet();
         I18N reversed = new I18N();
         for (Map.Entry<Object, Object> entry : entries) {
-            reversed.put(entry.getValue(), entry.getKey());
+            reversed.properties.put(entry.getValue(), entry.getKey());
         }
         return reversed;
+    }
+
+    /**
+     * Represent bundle as map
+     *
+     * @return Bundle as map
+     */
+    public Map<String, String> toMap() {
+        Map<String, String> map = new HashMap<>();
+        for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+            map.put((String) entry.getKey(), (String) entry.getValue());
+        }
+        return map;
     }
 }
