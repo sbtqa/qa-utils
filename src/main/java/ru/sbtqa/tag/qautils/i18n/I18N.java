@@ -68,8 +68,8 @@ public class I18N {
      */
     public static final I18N getI18n(Class callerClass, Locale locale, String bundlePath) {
         String className = callerClass.getSimpleName();
-        String classPath = callerClass.getPackage().getName().replaceAll("\\.", File.separator);
-        String s = File.separator;
+        String s = "/";
+        String classPath = callerClass.getPackage().getName().replaceAll("\\.", s);
         String resourceFile = bundlePath + s + classPath + s + className + s
                 + locale.getLanguage() + ".properties";
         LOG.debug("Loading i18n bundle from {}", resourceFile);
