@@ -54,11 +54,8 @@ public class Connector {
         }
 
         try (
-            Statement statement = 
-                connection.createStatement();
-            ResultSet resultSet = 
-                statement.executeQuery(query)
-        ) {
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(query)) {
             List<Map<String, String>> results = new ArrayList<>();
             ResultSetMetaData reslutSetMetaData = resultSet.getMetaData();
             while (resultSet.next()) {
