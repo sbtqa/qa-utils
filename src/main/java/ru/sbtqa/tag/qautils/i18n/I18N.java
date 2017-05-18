@@ -3,7 +3,6 @@ package ru.sbtqa.tag.qautils.i18n;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -79,7 +78,7 @@ public class I18N {
             try (InputStream streamFromResources = I18N.class.getClassLoader().getResourceAsStream(resourceFile)) {
                 InputStreamReader isr = new InputStreamReader(streamFromResources, BUNDLE_ENCODING);
                 bundle.properties.load(isr);
-            } catch (IOException| NullPointerException e) {
+            } catch (IOException | NullPointerException e) {
                 throw new I18NRuntimeException("Failed to access bundle properties file", e);
             }
             synchronized (BUNDLE_STORAGE) {
