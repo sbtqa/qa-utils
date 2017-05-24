@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/sbtqa/qa-utils.svg?branch=master)](https://travis-ci.org/sbtqa/qa-utils) [![GitHub release](https://img.shields.io/github/release/sbtqa/qa-utils.svg?style=flat-square)](https://github.com/sbtqa/qa-utils/releases) [![Maven Central](https://img.shields.io/maven-central/v/ru.sbtqa.tag/qa-utils.svg)](https://mvnrepository.com/artifact/ru.sbtqa.tag/qa-utils)
 
 QA-Utils это библиотека с вспомогательными инструментами для автоматизированого.  
+  
 В данной библиотеке есть следующие классы:
 * ***Connector*** - класс для работы с базой данных
 * ***DateManager*** - класс для работы с датой и временем
