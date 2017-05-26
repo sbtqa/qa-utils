@@ -19,7 +19,7 @@ QA-Utils - библиотека с вспомогательными инстру
 
 
 ### Контакты
-Нашли ошибку или появились вопросы? [Проверьте](https://github.com/sbtqa/qa-utils/issues) нет ли уже созданных задач? Если нет, то создайте [новую](https://github.com/sbtqa/qa-utils/issues/new)!
+Нашли ошибку или появились вопросы? [Проверьте](https://github.com/sbtqa/qa-utils/issues), нет ли уже созданных задач. Если нет, то создайте [новую](https://github.com/sbtqa/qa-utils/issues/new)!
 
 ### Лицензия 
 QA-Utils выпущен под лицензией Apache 2.0. [Подробности](https://github.com/sbtqa/qa-utils/blob/master/LICENSE).
