@@ -1,7 +1,7 @@
 # QA-Utils
 [![Build Status](https://travis-ci.org/sbtqa/qa-utils.svg?branch=master)](https://travis-ci.org/sbtqa/qa-utils) [![GitHub release](https://img.shields.io/github/release/sbtqa/qa-utils.svg?style=flat-square)](https://github.com/sbtqa/qa-utils/releases) [![Maven Central](https://img.shields.io/maven-central/v/ru.sbtqa.tag/qa-utils.svg)](https://mvnrepository.com/artifact/ru.sbtqa.tag/qa-utils)
 
-QA-Utils это библиотека с вспомогательными инструментами для автоматизированого.  
+QA-Utils - библиотека с вспомогательными инструментами для автоматизированого тестирования.  
   
 В данной библиотеке есть следующие классы:
 * ***Connector*** - класс для работы с базой данных
@@ -19,7 +19,7 @@ QA-Utils это библиотека с вспомогательными инс�
 
 
 ### Контакты
-Нашли ошибку или появились вопросы? [Проверьте](https://github.com/sbtqa/qa-utils/issues) нет ли уже созданных issue, если нет то создайте [новое](https://github.com/sbtqa/qa-utils/issues/new)!
+Нашли ошибку или появились вопросы? [Проверьте](https://github.com/sbtqa/qa-utils/issues) нет ли уже созданных задач? Если нет, то создайте [новую](https://github.com/sbtqa/qa-utils/issues/new)!
 
 ### Лицензия 
 QA-Utils выпущен под лицензией Apache 2.0. [Подробности](https://github.com/sbtqa/qa-utils/blob/master/LICENSE).
