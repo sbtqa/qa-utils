@@ -1,5 +1,5 @@
 # QA-Utils
-[![Build Status](https://travis-ci.org/sbtqa/qa-utils.svg?branch=master)](https://travis-ci.org/sbtqa/qa-utils) [![GitHub release](https://img.shields.io/github/release/sbtqa/qa-utils.svg?style=flat-square)](https://github.com/sbtqa/qa-utils/releases) [![Maven Central](https://img.shields.io/maven-central/v/ru.sbtqa.tag/qa-utils.svg)](https://mvnrepository.com/artifact/ru.sbtqa.tag/qa-utils)
+[![Build Status](https://travis-ci.org/sbtqa/qa-utils.svg?branch=master)](https://travis-ci.org/sbtqa/qa-utils) [![GitHub release](https://img.shields.io/github/release/sbtqa/qa-utils.svg?style=flat-square)](https://github.com/sbtqa/qa-utils/releases) [![Maven Central](https://img.shields.io/maven-central/v/ru.sbtqa.tag/qa-utils.svg)](https://mvnrepository.com/artifact/ru.sbtqa.tag/qa-utils) [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/sbtqa-tag/Lobby)
 
 QA-Utils - библиотека со вспомогательными инструментами для автоматизированного тестирования.  
   
@@ -19,7 +19,7 @@ QA-Utils - библиотека со вспомогательными инстр
 
 
 ### Контакты
-Нашли ошибку или появились вопросы? [Проверьте](https://github.com/sbtqa/qa-utils/issues), нет ли уже созданных задач. Если нет, то создайте [новую](https://github.com/sbtqa/qa-utils/issues/new)!
+Нашли ошибку или появились вопросы? [Проверьте](https://github.com/sbtqa/qa-utils/issues), нет ли уже созданных задач. Если нет, то создайте [новую](https://github.com/sbtqa/qa-utils/issues/new)! Также свои вопросы можно задать в нашем чате в [gitter](https://gitter.im/sbtqa-tag/Lobby)
 
 ### Лицензия 
 QA-Utils выпущен под лицензией Apache 2.0. [Подробности](https://github.com/sbtqa/qa-utils/blob/master/LICENSE).
