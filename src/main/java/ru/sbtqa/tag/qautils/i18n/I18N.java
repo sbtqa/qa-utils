@@ -22,6 +22,7 @@ public class I18N {
     private static final Map<String, I18N> BUNDLE_STORAGE = new HashMap<>();
     private static final String BUNDLE_ENCODING = "UTF-8";
     public static final String DEFAULT_BUNDLE_PATH = "i18n";
+    public static final String SECRET_DELIMITER = "°\u0000\u0000\u0000 ";
     private final Properties properties = new Properties();
     private String bundleFile;
 
