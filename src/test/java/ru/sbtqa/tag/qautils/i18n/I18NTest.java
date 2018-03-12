@@ -38,7 +38,7 @@ public class I18NTest {
     @Test
     public void getI18nFullTest() {
         Locale.setDefault(Locale.ENGLISH);
-        I18N i18n = I18N.getI18n(this.getClass(), new Locale("ru", "RU"), "i18ns");
+        I18N i18n = I18N.getI18n(I18NTest.class, new Locale("ru", "RU"), "i18ns");
         Assert.assertEquals("Тестовые строки", i18n.get("test.string.s"));
     }
 
