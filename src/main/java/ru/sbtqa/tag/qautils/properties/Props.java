@@ -15,6 +15,10 @@ public class Props {
     private static Properties properties;
 
     private Props() {
+        initProperties();
+    }
+
+    private static void initProperties() {
         String sConfigFile = System.getProperty("TagConfigFile", "config/application.properties");
         properties = new Properties();
         LOG.debug("Loading properties from {}", sConfigFile);
@@ -57,6 +61,16 @@ public class Props {
     }
 
     /**
+     * Get properties as a Properties object
+     
+     * @return the Properties object
+     */
+    public static Properties getProps() {
+        initProperties();
+        return properties;
+    }
+
+    /**
      * Get property from file
      *
      * @param prop property name.
@@ -81,12 +95,5 @@ public class Props {
         }
 
         return value;
-    }
-
-    /**
-     * @return the props
-     */
-    public static Properties getProps() {
-        return properties;
     }
 }
