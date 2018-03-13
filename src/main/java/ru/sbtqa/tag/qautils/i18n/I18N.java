@@ -1,17 +1,15 @@
 package ru.sbtqa.tag.qautils.i18n;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.HashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * i18n resource bundle from UTF-8 properties
@@ -19,10 +17,12 @@ import java.util.HashMap;
 public class I18N {
 
     private static final Logger LOG = LoggerFactory.getLogger(I18N.class);
+    
     private static final Map<String, I18N> BUNDLE_STORAGE = new HashMap<>();
     private static final String BUNDLE_ENCODING = "UTF-8";
     public static final String DEFAULT_BUNDLE_PATH = "i18n";
     public static final String SECRET_DELIMITER = "°\u0000\u0000\u0000 ";
+    private static final String DELIMITER = "/";
     private final Properties properties = new Properties();
     private String bundleFile;
 
@@ -67,11 +67,8 @@ public class I18N {
      * @return Resources for given class
      */
     public static final I18N getI18n(Class callerClass, Locale locale, String bundlePath) {
-        String className = callerClass.getSimpleName();
-        String s = "/";
-        String classPath = callerClass.getPackage().getName().replaceAll("\\.", s);
-        String resourceFile = bundlePath + s + classPath + s + className + s
-                + locale.getLanguage() + ".properties";
+        String className = callerClass.getSimpleName().toLowerCase();
+        String resourceFile = bundlePath + DELIMITER + className + DELIMITER + locale.getLanguage() + ".properties";
         LOG.debug("Loading i18n bundle from {}", resourceFile);
         if (BUNDLE_STORAGE.get(resourceFile) == null) {
             I18N bundle = new I18N();
@@ -102,6 +99,21 @@ public class I18N {
             translation = key;
         }
         return translation;
+    }
+
+    /**
+     * Get key by translation
+     *
+     * @param value translation value
+     * @return translation
+     */
+    public String getKey(String value) {
+        for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+            if (value.equals(entry.getValue())) {
+                return entry.getKey().toString();
+            }
+        }
+        throw new I18NRuntimeException("None of the keys belongs to the value \"" + value + "\" in \"" + this.bundleFile + "\" bundle");
     }
 
     /**
