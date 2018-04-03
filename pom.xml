@@ -37,10 +37,10 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
-    <slf4j.version>1.7.22</slf4j.version>
-    <commons-lang3.version>3.3.2</commons-lang3.version>
-    <junit.version>4.12</junit.version>
-    <cucumber.version>2.4.0</cucumber.version>
+    <version.commons-lang3>3.3.2</version.commons-lang3>
+    <version.cucumber>2.4.0</version.cucumber>
+    <version.junit>4.12</version.junit>
+    <version.slf4j>1.7.22</version.slf4j>
   </properties>
   <distributionManagement>
     <snapshotRepository>
@@ -54,33 +54,33 @@
   </distributionManagement>
   <dependencies>
     <dependency>
-      <groupId>io.cucumber</groupId>
-      <artifactId>cucumber-java</artifactId>
-      <version>${cucumber.version}</version>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>${version.commons-lang3}</version>
       <type>jar</type>
     </dependency>
     <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>${commons-lang3.version}</version>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-java</artifactId>
+      <version>${version.cucumber}</version>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
+      <version>${version.junit}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>${slf4j.version}</version>
+      <version>${version.slf4j}</version>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
-      <version>${slf4j.version}</version>
+      <version>${version.slf4j}</version>
       <type>jar</type>
     </dependency>
   </dependencies>
@@ -128,7 +128,7 @@
           </execution>
         </executions>
       </plugin>
-<!--      <plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
         <version>1.5</version>
@@ -141,7 +141,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin>-->
+      </plugin>
     </plugins>
   </build>
 </project>
