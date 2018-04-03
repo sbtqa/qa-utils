@@ -13,7 +13,8 @@ public class CucumberUtils {
         List<String> scenarioPaths = new ArrayList<>();
         scenarioPaths.add(scenario.getUri());
 
-        CucumberFeature load = CucumberFeature.load(new MultiLoader(ClassLoader.getSystemClassLoader()), scenarioPaths).get(0);
+        MultiLoader multiLoader = new MultiLoader(ClassLoader.getSystemClassLoader());
+        CucumberFeature load = CucumberFeature.load(multiLoader, scenarioPaths).get(0);
         String language = load.getGherkinFeature().getFeature().getLanguage();
 
         return new Locale(language);
