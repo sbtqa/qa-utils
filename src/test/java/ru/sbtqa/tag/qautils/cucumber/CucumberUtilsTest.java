@@ -24,7 +24,7 @@ public class CucumberUtilsTest {
     @Test
     public void fallbackToDefaultLanguageTest() {
         Scenario scenario = mock(ScenarioImpl.class);
-        when(scenario.getUri()).thenReturn("src/test/resources/features/Empty.feature");
+        when(scenario.getUri()).thenReturn("src/test/resources/features/Uncorrect.feature");
         Locale expectedLocale = new Locale("en");
 
         Locale actualLocale = CucumberUtils.getLocale(scenario);

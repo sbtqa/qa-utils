@@ -1,11 +1,14 @@
 package ru.sbtqa.tag.qautils.i18n;
 
-import org.junit.Assert;
-import org.junit.Test;
-
+import cucumber.api.Scenario;
+import cucumber.runtime.ScenarioImpl;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import org.junit.Assert;
+import org.junit.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class I18NTest {
 
@@ -52,5 +55,15 @@ public class I18NTest {
 
         I18N i18n = I18N.getI18n(I18NTest.class, new Locale("ru", "RU"));
         Assert.assertEquals(i18nReverse, i18n.reverse().toMap());
+    }
+
+    @Test
+    public void getI18nViaScenarioTest() {
+        Scenario scenario = mock(ScenarioImpl.class);
+        when(scenario.getUri()).thenReturn("src/test/resources/features/Correct.feature");
+
+        I18N i18n = I18N.getI18n(I18NTest.class, scenario);
+
+        Assert.assertEquals("Тестовая строка", i18n.get("test.string"));
     }
 }
