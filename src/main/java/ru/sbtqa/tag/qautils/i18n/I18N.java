@@ -1,5 +1,6 @@
 package ru.sbtqa.tag.qautils.i18n;
 
+import cucumber.api.Scenario;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -10,6 +11,7 @@ import java.util.Properties;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.sbtqa.tag.qautils.cucumber.CucumberUtils;
 
 /**
  * i18n resource bundle from UTF-8 properties
@@ -56,6 +58,18 @@ public class I18N {
      */
     public static final I18N getI18n(Class callerClass, String bundlePath) {
         return getI18n(callerClass, Locale.getDefault(), bundlePath);
+    }
+
+    /**
+     * Gets bundle with default bundlePath and given executable scenario
+     *
+     * @param callerClass Class resource for
+     * @param scenario Current executable scenario
+     * @return Resources for given class
+     */
+    public static final I18N getI18n(Class callerClass, Scenario scenario) {
+        Locale locale = CucumberUtils.getLocale(scenario);
+        return I18N.getI18n(callerClass, locale);
     }
 
     /**
