@@ -87,7 +87,7 @@ public class I18N {
         if (BUNDLE_STORAGE.get(resourceFile) == null) {
             I18N bundle = new I18N();
             bundle.bundleFile = resourceFile;
-            try (InputStream streamFromResources = I18N.class.getClassLoader().getResourceAsStream(resourceFile)) {
+            try (InputStream streamFromResources = callerClass.getClassLoader().getResourceAsStream(resourceFile)) {
                 InputStreamReader isr = new InputStreamReader(streamFromResources, BUNDLE_ENCODING);
                 bundle.properties.load(isr);
             } catch (IOException | NullPointerException e) {
