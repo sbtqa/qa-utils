@@ -21,6 +21,7 @@ public class Connector {
 
     private final Connection connection;
     private static final String EMPTY_QUERY_EXCEPTION_MESSAGE = "Query string is empty";
+    private static final int DEFAULT_FETCH_SIZE = 500;
 
     public Connector(Connection connection) {
         this.connection = connection;
@@ -53,18 +54,27 @@ public class Connector {
             throw new SQLException(EMPTY_QUERY_EXCEPTION_MESSAGE);
         }
 
-        try (
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(query)) {
-            List<Map<String, String>> results = new ArrayList<>();
-            ResultSetMetaData reslutSetMetaData = resultSet.getMetaData();
-            while (resultSet.next()) {
-                Map<String, String> resultsTmp = new HashMap<>();
-                for (int i = 1; i < reslutSetMetaData.getColumnCount() + 1; i++) {
-                    resultsTmp.put(reslutSetMetaData.getColumnName(i), resultSet.getString(reslutSetMetaData.getColumnLabel(i)));
+        List<Map<String, String>> results = new ArrayList<>();
+
+        try (Statement statement = connection.createStatement()) {
+            statement.setFetchSize(DEFAULT_FETCH_SIZE);
+
+            try (ResultSet resultSet = statement.executeQuery(query)) {
+                ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+
+                while (resultSet.next()) {
+                    Map<String, String> resultsTmp = new HashMap<>();
+                    for (int column = 1; column < resultSetMetaData.getColumnCount() + 1; column++) {
+                        String columnName = resultSetMetaData.getColumnName(column);
+                        String value = resultSet.getString(resultSetMetaData.getColumnLabel(column));
+
+                        resultsTmp.put(columnName, value);
+                    }
+
+                    results.add(resultsTmp);
                 }
-                results.add(resultsTmp);
             }
+
             return results;
         }
     }
