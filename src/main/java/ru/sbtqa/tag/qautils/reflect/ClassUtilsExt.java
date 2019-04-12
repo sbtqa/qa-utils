@@ -21,7 +21,8 @@ public class ClassUtilsExt extends org.apache.commons.lang3.ClassUtils {
 
         Class supp = clazz.getSuperclass();
 
-        while (supp != java.lang.Object.class) {
+        // interfaces has null super class
+        while (supp != null && supp != java.lang.Object.class) {
             classes.add(supp);
             supp = supp.getSuperclass();
         }

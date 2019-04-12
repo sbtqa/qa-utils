@@ -25,7 +25,8 @@ public class FieldUtilsExt extends org.apache.commons.lang3.reflect.FieldUtils {
 
         Class supp = clazz.getSuperclass();
 
-        while (supp != java.lang.Object.class) {
+        // interfaces has null super class
+        while (supp != null && supp != java.lang.Object.class) {
             fields.addAll(Arrays.asList(supp.getDeclaredFields()));
             supp = supp.getSuperclass();
 
