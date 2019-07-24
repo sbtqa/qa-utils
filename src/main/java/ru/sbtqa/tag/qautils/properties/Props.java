@@ -21,7 +21,9 @@ public class Props {
     private static void initProperties() {
         String sConfigFile = System.getProperty("TagConfigFile", "config/application.properties");
         properties = new Properties();
-        LOG.debug("Loading properties from {}", sConfigFile);
+        if(LOG.isDebugEnabled()) {
+            LOG.debug("Loading properties from {}", sConfigFile);
+        }
         try (InputStream streamFromResources = Props.class.getClassLoader().getResourceAsStream(sConfigFile)) {
             InputStreamReader isr = new InputStreamReader(streamFromResources, "UTF-8");
             properties.load(isr);
@@ -54,7 +56,7 @@ public class Props {
      */
     private String getProp(String name) {
         String val = getProps().getProperty(name, "");
-        if (val.isEmpty()) {
+        if(LOG.isDebugEnabled() && val.isEmpty()) {
             LOG.debug("Property {} was not found in properties file", name);
         }
         return val.trim();

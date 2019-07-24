@@ -83,7 +83,9 @@ public class I18N {
     public static final I18N getI18n(Class callerClass, Locale locale, String bundlePath) {
         String className = callerClass.getSimpleName().toLowerCase();
         String resourceFile = bundlePath + DELIMITER + className + DELIMITER + locale.getLanguage() + ".properties";
-        LOG.debug("Loading i18n bundle from {}", resourceFile);
+        if(LOG.isDebugEnabled()) {
+            LOG.debug("Loading i18n bundle from {}", resourceFile);
+        }
         if (BUNDLE_STORAGE.get(resourceFile) == null) {
             I18N bundle = new I18N();
             bundle.bundleFile = resourceFile;
@@ -109,7 +111,9 @@ public class I18N {
     public String get(String key) {
         String translation = properties.getProperty(key);
         if (translation == null) {
-            LOG.debug("There is no \"{}\" key in \"{}\" bundle. Failing back to {}", key, this.bundleFile, key);
+            if(LOG.isDebugEnabled()) {
+                LOG.debug("There is no \"{}\" key in \"{}\" bundle. Failing back to {}", key, this.bundleFile, key);
+            }
             translation = key;
         }
         return translation;
