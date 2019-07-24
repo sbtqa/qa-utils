@@ -1,11 +1,13 @@
 package ru.sbtqa.tag.qautils.properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Props {
 
@@ -19,14 +21,33 @@ public class Props {
     }
 
     private static void initProperties() {
-        String sConfigFile = System.getProperty("TagConfigFile", "config/application.properties");
+        String sConfigFile = "application.properties";
+        String sConfigFileFolder = System.getProperty("TagConfigFile", "config");
         properties = new Properties();
-        LOG.debug("Loading properties from {}", sConfigFile);
-        try (InputStream streamFromResources = Props.class.getClassLoader().getResourceAsStream(sConfigFile)) {
-            InputStreamReader isr = new InputStreamReader(streamFromResources, "UTF-8");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Loading properties from {}/{}", sConfigFileFolder, sConfigFile);
+        }
+        InputStream streamFromResources = Props.class.getClassLoader().getResourceAsStream(sConfigFileFolder + "/" + sConfigFile);
+        if (streamFromResources == null) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Loading properties from {}", sConfigFile);
+            }
+            streamFromResources = Props.class.getClassLoader().getResourceAsStream(sConfigFile);
+        }
+        if (streamFromResources == null) {
+            throw new PropsRuntimeException("File with properties not found");
+        }
+        try {
+            InputStreamReader isr = new InputStreamReader(streamFromResources, StandardCharsets.UTF_8);
             properties.load(isr);
-        } catch (IOException | NullPointerException e) {
+        } catch (IOException e) {
             throw new PropsRuntimeException("Failed to access properties file", e);
+        } finally {
+            try {
+                streamFromResources.close();
+            } catch (IOException e) {
+                throw new PropsRuntimeException("Failed to close properties file", e);
+            }
         }
     }
 
@@ -62,7 +83,7 @@ public class Props {
 
     /**
      * Get properties as a Properties object
-     
+
      * @return the Properties object
      */
     public static Properties getProps() {
