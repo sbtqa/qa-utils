@@ -34,14 +34,12 @@ public class Props {
         String sConfigFile = "application.properties";
         String sConfigFileFolder = System.getProperty("TagConfigFile", "config");
         LOG.debug("Loading properties from {}/{}", sConfigFileFolder, sConfigFile);
-        // Поиск настроек по указанному пути
         InputStream streamFromResource = Props.class.getClassLoader().getResourceAsStream(sConfigFileFolder + "/" + sConfigFile);
-        if (streamFromResource == null) {// Настройки не найдены
+        if (streamFromResource == null) {
             LOG.debug("Loading properties from {}", sConfigFile);
-            // Поиск настроек в корне classpath
             streamFromResource = Props.class.getClassLoader().getResourceAsStream(sConfigFile);
         }
-        if (streamFromResource == null) {// Настройки не найдены
+        if (streamFromResource == null) {
             throw new PropsRuntimeException("File with properties not found");
         }
         return streamFromResource;
