@@ -6,8 +6,9 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.Properties;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class Props {
 
@@ -21,34 +22,29 @@ public class Props {
     }
 
     private static void initProperties() {
-        String sConfigFile = "application.properties";
-        String sConfigFileFolder = System.getProperty("TagConfigFile", "config");
         properties = new Properties();
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Loading properties from {}/{}", sConfigFileFolder, sConfigFile);
-        }
-        InputStream streamFromResources = Props.class.getClassLoader().getResourceAsStream(sConfigFileFolder + "/" + sConfigFile);
-        if (streamFromResources == null) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Loading properties from {}", sConfigFile);
-            }
-            streamFromResources = Props.class.getClassLoader().getResourceAsStream(sConfigFile);
-        }
-        if (streamFromResources == null) {
-            throw new PropsRuntimeException("File with properties not found");
-        }
-        try {
-            InputStreamReader isr = new InputStreamReader(streamFromResources, StandardCharsets.UTF_8);
+        try (InputStream is = settings(); InputStreamReader isr = new InputStreamReader(is, UTF_8)) {
             properties.load(isr);
         } catch (IOException e) {
             throw new PropsRuntimeException("Failed to access properties file", e);
-        } finally {
-            try {
-                streamFromResources.close();
-            } catch (IOException e) {
-                throw new PropsRuntimeException("Failed to close properties file", e);
-            }
         }
+    }
+
+    private static InputStream settings() {
+        String sConfigFile = "application.properties";
+        String sConfigFileFolder = System.getProperty("TagConfigFile", "config");
+        LOG.debug("Loading properties from {}/{}", sConfigFileFolder, sConfigFile);
+        // Поиск настроек по указанному пути
+        InputStream streamFromResource = Props.class.getClassLoader().getResourceAsStream(sConfigFileFolder + "/" + sConfigFile);
+        if (streamFromResource == null) {// Настройки не найдены
+            LOG.debug("Loading properties from {}", sConfigFile);
+            // Поиск настроек в корне classpath
+            streamFromResource = Props.class.getClassLoader().getResourceAsStream(sConfigFile);
+        }
+        if (streamFromResource == null) {// Настройки не найдены
+            throw new PropsRuntimeException("File with properties not found");
+        }
+        return streamFromResource;
     }
 
     /**
@@ -83,7 +79,7 @@ public class Props {
 
     /**
      * Get properties as a Properties object
-
+     *
      * @return the Properties object
      */
     public static Properties getProps() {
@@ -104,7 +100,7 @@ public class Props {
     /**
      * Get property from file
      *
-     * @param prop property name.
+     * @param prop         property name.
      * @param defaultValue default value if not set
      * @return property value.
      */
