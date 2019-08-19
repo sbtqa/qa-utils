@@ -1,11 +1,14 @@
 package ru.sbtqa.tag.qautils.properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class Props {
 
@@ -19,15 +22,27 @@ public class Props {
     }
 
     private static void initProperties() {
-        String sConfigFile = System.getProperty("TagConfigFile", "config/application.properties");
         properties = new Properties();
-        LOG.debug("Loading properties from {}", sConfigFile);
-        try (InputStream streamFromResources = Props.class.getClassLoader().getResourceAsStream(sConfigFile)) {
-            InputStreamReader isr = new InputStreamReader(streamFromResources, "UTF-8");
+        try (InputStream is = settings(); InputStreamReader isr = new InputStreamReader(is, UTF_8)) {
             properties.load(isr);
-        } catch (IOException | NullPointerException e) {
+        } catch (IOException e) {
             throw new PropsRuntimeException("Failed to access properties file", e);
         }
+    }
+
+    private static InputStream settings() {
+        String sConfigFile = "application.properties";
+        String sConfigFileFolder = System.getProperty("TagConfigFile", "config");
+        LOG.debug("Loading properties from {}/{}", sConfigFileFolder, sConfigFile);
+        InputStream streamFromResource = Props.class.getClassLoader().getResourceAsStream(sConfigFileFolder + "/" + sConfigFile);
+        if (streamFromResource == null) {
+            LOG.debug("Loading properties from {}", sConfigFile);
+            streamFromResource = Props.class.getClassLoader().getResourceAsStream(sConfigFile);
+        }
+        if (streamFromResource == null) {
+            throw new PropsRuntimeException("File with properties not found");
+        }
+        return streamFromResource;
     }
 
     /**
@@ -62,7 +77,7 @@ public class Props {
 
     /**
      * Get properties as a Properties object
-     
+     *
      * @return the Properties object
      */
     public static Properties getProps() {
@@ -83,7 +98,7 @@ public class Props {
     /**
      * Get property from file
      *
-     * @param prop property name.
+     * @param prop         property name.
      * @param defaultValue default value if not set
      * @return property value.
      */
