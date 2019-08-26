@@ -1,6 +1,6 @@
 package ru.sbtqa.tag.qautils.i18n;
 
-import cucumber.api.Scenario;
+import io.cucumber.core.api.Scenario;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -19,7 +19,7 @@ import ru.sbtqa.tag.qautils.cucumber.CucumberUtils;
 public class I18N {
 
     private static final Logger LOG = LoggerFactory.getLogger(I18N.class);
-    
+
     private static final Map<String, I18N> BUNDLE_STORAGE = new HashMap<>();
     private static final String BUNDLE_ENCODING = "UTF-8";
     public static final String DEFAULT_BUNDLE_PATH = "i18n";
