@@ -31,13 +31,14 @@ public class Props {
     }
 
     private static InputStream settings() {
-        String sConfigFile = "application.properties";
-        String sConfigFileFolder = System.getProperty("TagConfigFile", "config");
-        LOG.debug("Loading properties from {}/{}", sConfigFileFolder, sConfigFile);
-        InputStream streamFromResource = Props.class.getClassLoader().getResourceAsStream(sConfigFileFolder + "/" + sConfigFile);
+        String configFileDefault = "config/application.properties";
+        String configFile = System.getProperty("TagConfigFile", "");
+        String resultFile = configFile.isEmpty() ? configFileDefault : configFile;
+        LOG.debug("Loading properties from {}", resultFile);
+        InputStream streamFromResource = Props.class.getClassLoader().getResourceAsStream(resultFile);
         if (streamFromResource == null) {
-            LOG.debug("Loading properties from {}", sConfigFile);
-            streamFromResource = Props.class.getClassLoader().getResourceAsStream(sConfigFile);
+            LOG.debug("Loading properties from {}", configFileDefault);
+            streamFromResource = Props.class.getClassLoader().getResourceAsStream(configFileDefault);
         }
         if (streamFromResource == null) {
             throw new PropsRuntimeException("File with properties not found");
