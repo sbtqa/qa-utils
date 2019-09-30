@@ -33,7 +33,7 @@ public class Props {
     private static InputStream settings() {
         String configFile = System.getProperty("TagConfigFile", "application.properties");
         String configFileFolder = System.getProperty("TagConfigFileFolder", "config");
-        LOG.warn("Loading properties from {}/{}", configFileFolder, configFile);
+        LOG.debug("Loading properties from {}/{}", configFileFolder, configFile);
         String path = String.format("%s/%s", configFileFolder, configFile);
         InputStream streamFromResource = Props.class.getClassLoader().getResourceAsStream(path);
         if (streamFromResource == null) {
