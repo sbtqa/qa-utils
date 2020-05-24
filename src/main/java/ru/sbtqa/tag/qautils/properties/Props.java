@@ -78,7 +78,10 @@ public class Props {
      * @return the Properties object
      */
     public static Properties getProps() {
-        initProperties();
+        return getInstance().getProperties();
+    }
+
+    private Properties getProperties() {
         return properties;
     }
 
