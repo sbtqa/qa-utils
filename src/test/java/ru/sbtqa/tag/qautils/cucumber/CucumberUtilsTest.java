@@ -1,7 +1,6 @@
 package ru.sbtqa.tag.qautils.cucumber;
 
 import cucumber.api.Scenario;
-import cucumber.runtime.ScenarioImpl;
 import java.util.Locale;
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,7 +11,7 @@ public class CucumberUtilsTest {
 
     @Test
     public void returnCorrectLanguageLocaleTest() {
-        Scenario scenario = mock(ScenarioImpl.class);
+        Scenario scenario = mock(Scenario.class);
         when(scenario.getUri()).thenReturn("src/test/resources/features/Correct.feature");
         Locale expectedLocale = new Locale("ru");
 
@@ -23,7 +22,7 @@ public class CucumberUtilsTest {
 
     @Test
     public void fallbackToDefaultLanguageTest() {
-        Scenario scenario = mock(ScenarioImpl.class);
+        Scenario scenario = mock(Scenario.class);
         when(scenario.getUri()).thenReturn("src/test/resources/features/Incorrect.feature");
         Locale expectedLocale = new Locale("en");
 
