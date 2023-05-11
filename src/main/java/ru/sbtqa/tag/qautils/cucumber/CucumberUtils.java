@@ -2,10 +2,14 @@ package ru.sbtqa.tag.qautils.cucumber;
 
 import cucumber.api.Scenario;
 import cucumber.runtime.io.MultiLoader;
-import cucumber.runtime.model.CucumberFeature;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Locale;
+
+import gherkin.AstBuilder;
+import gherkin.Parser;
+import gherkin.ast.GherkinDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,14 +22,12 @@ public class CucumberUtils {
     }
 
     public static Locale getLocale(Scenario scenario) {
-        List<String> scenarioPaths = new ArrayList<>();
-        scenarioPaths.add(scenario.getUri());
-
         MultiLoader multiLoader = new MultiLoader(ClassLoader.getSystemClassLoader());
         String language = DEFAULT_LANGUAGE;
         try {
-            CucumberFeature cucumberFeature = CucumberFeature.load(multiLoader, scenarioPaths).get(0);
-            language = cucumberFeature.getGherkinFeature().getFeature().getLanguage();
+            String content = new String(Files.readAllBytes(Paths.get(scenario.getUri())));
+            GherkinDocument gherkinDocument = new Parser<>(new AstBuilder()).parse(content);
+            language = gherkinDocument.getFeature().getLanguage();
         } catch (Exception e) {
             LOG.warn("Error while reading feature with uri {}. Using default language {} as fallback", scenario.getUri(), DEFAULT_LANGUAGE, e);
         }

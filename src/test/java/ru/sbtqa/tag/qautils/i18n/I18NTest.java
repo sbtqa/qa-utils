@@ -1,7 +1,6 @@
 package ru.sbtqa.tag.qautils.i18n;
 
 import cucumber.api.Scenario;
-import cucumber.runtime.ScenarioImpl;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -59,7 +58,7 @@ public class I18NTest {
 
     @Test
     public void getI18nViaScenarioTest() {
-        Scenario scenario = mock(ScenarioImpl.class);
+        Scenario scenario = mock(Scenario.class);
         when(scenario.getUri()).thenReturn("src/test/resources/features/Correct.feature");
 
         I18N i18n = I18N.getI18n(I18NTest.class, scenario);
