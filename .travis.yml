@@ -3,21 +3,14 @@ dist: trusty
 branches:
   only:
     - master
-    - /^[0-9]+\.[0-9]+\.[0-9]+$/
-addons:
-  sonarcloud:
-    organization: "sbtqasonarkey"
-    token:
-      secure: $SONAR_TOKEN
+    - /^\d+\.\d+\.\d+$/
 jdk:
   - oraclejdk11
 before_install:
   - if [ ! -z "$GPG_SECRET_KEYS" ]; then echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import; fi
   - if [ ! -z "$GPG_OWNERTRUST" ]; then echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust; fi
 install:
-- mvn clean --settings .travis/settings.xml install -Dmaven.javadoc.skip=true -Dgpg.skip -B -V
-#script:
-#- mvn org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar -Dsonar.login=$SONAR_TOKEN
+- mvn clean --settings .travis/settings.xml install -Dmaven.javadoc.skip=true -Dgpg.skip -B -V#script:
 deploy:
   - provider: script
     script: ".travis/deploy.sh"
