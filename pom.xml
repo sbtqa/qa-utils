@@ -37,7 +37,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
-    <version.commons-lang3>3.5</version.commons-lang3>
+    <version.commons-lang3>3.13.0</version.commons-lang3>
     <version.cucumber>4.3.1</version.cucumber>
     <version.junit>4.13.1</version.junit>
     <version.slf4j>2.0.7</version.slf4j>
